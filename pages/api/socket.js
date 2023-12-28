@@ -11,6 +11,11 @@ const SocketHandeler=(req,res)=>{
         res.socket.server.io=io
         io.on("connection",(socket)=>{
             console.log("server is connected")
+            socket.on('join-room',(roomid,userid)=>{
+                console.log(`a new user with ${userid} joind the roomid ${roomid}`)
+                socket.join(roomid)
+                socket.broadcast.to(roomid).emit("user-connected",userid)
+            })
         })
     }
     res.end(); 
